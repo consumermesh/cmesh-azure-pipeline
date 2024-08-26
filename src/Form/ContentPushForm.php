@@ -123,12 +123,19 @@ class ContentPushForm extends ConfigFormBase {
                 '#options' => $options,
             ];
 
-            $form['azure_pipeline_url'] = [
+            // add a collapsible block
+            $form['azure_pipeline'] = [
+                '#type' => 'details',
+                '#open' => FALSE,
+                '#title' => $this->t('Azure DevOps'),
+            ];
+            // add textfield to collapsible block
+            $form['azure_pipeline']['azure_pipeline_url'] = [
                 '#type' => 'textfield',
                 '#title' => $this->t('Azure Pipeline URL'),
                 '#default_value' => $azure_pipeline_url,
             ];
-            $form['access_token'] = [
+            $form['azure_pipeline']['access_token'] = [
                 '#type' => 'key_select',
                 '#title' => $this->t('Azure DevOps PAT'),
                 '#default_value' => $access_token_id,
