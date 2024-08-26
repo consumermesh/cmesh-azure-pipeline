@@ -1,0 +1,7 @@
+name: Consumer Mesh Azure Push Content
+description: Push Content
+package: Custom
+type: module
+core_version_requirement: ^10.3 || ^11
+dependencies:
+  - 'drupal:key'

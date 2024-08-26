@@ -1,0 +1,7 @@
+consumer_mesh push_content_prod:
+  title: 'Push Content to Prod'
+  restrict_access: false
+
+consumer_mesh push_content_qa:
+  title: 'Push Content to QA'
+  restrict_access: false

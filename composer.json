@@ -1,0 +1,10 @@
+{
+    "name": "Consumer Mesh Azure DevOps Pipeline",
+    "description": "Azure DevOps Pipeline for Consumer Mesh",
+    "type": "module",
+    "version": "0.0.1",
+    "require": {
+        "drupal/key": "^1.19"
+    }
+}
+    

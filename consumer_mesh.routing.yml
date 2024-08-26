@@ -1,0 +1,9 @@
+consumer_mesh.content_push_form:
+  path: '/admin/config/consumer_mesh/contentpush'
+  defaults:
+    _form: '\Drupal\consumer_mesh\Form\ContentPushForm'
+    _title: 'Push Content'
+  requirements:
+    _permission: 'consumer_mesh push_content_qa+consumer_mesh push_content_prod'
+  options:
+    _admin_route: TRUE
