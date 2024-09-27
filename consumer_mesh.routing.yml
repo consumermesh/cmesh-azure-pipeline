@@ -1,9 +1,9 @@
-consumer_mesh.content_push_form:
-  path: '/admin/config/consumer_mesh/contentpush'
+cmesh_azure_pipeline.content_push_form:
+  path: '/admin/config/cmesh_azure_pipeline/contentpush'
   defaults:
-    _form: '\Drupal\consumer_mesh\Form\ContentPushForm'
+    _form: '\Drupal\cmesh_azure_pipeline\Form\ContentPushForm'
     _title: 'Push Content'
   requirements:
-    _permission: 'consumer_mesh push_content_qa+consumer_mesh push_content_prod'
+    _permission: 'cmesh_azure_pipeline push_content_qa+cmesh_azure_pipeline push_content_prod'
   options:
     _admin_route: TRUE

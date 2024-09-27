@@ -1,5 +1,5 @@
-name: Consumer Mesh Azure Push Content
-description: Push Content
+name: cmesh-azure-pipeline
+description: Consumer Mesh Azure Push Content
 package: Custom
 type: module
 core_version_requirement: ^10.3 || ^11

@@ -1,5 +1,5 @@
 <?php
-namespace Drupal\consumer_mesh\Form;
+namespace Drupal\cmesh_azure_pipeline\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -14,7 +14,7 @@ class ContentPushForm extends ConfigFormBase {
      */
     protected function getEditableConfigNames() {
         return [
-            'consumer_mesh.contentpush',
+            'cmesh_azure_pipeline.contentpush',
         ];
     }
 
@@ -29,7 +29,7 @@ class ContentPushForm extends ConfigFormBase {
      * {@inheritdoc}
      */
     public function buildForm(array $form, FormStateInterface $form_state) {
-        $config = $this->config('consumer_mesh.contentpush');
+        $config = $this->config('cmesh_azure_pipeline.contentpush');
         // get access token stored in Key module
         $azure_pipeline_url = $config->get('azure_pipeline_url');
         $access_token_id = $config->get('access_token');
@@ -99,7 +99,7 @@ class ContentPushForm extends ConfigFormBase {
                 }
 
             } catch (Exception $e) {
-                \Drupal::logger('consumer_mesh')->error('bad response'.$e->getMessage());
+                \Drupal::logger('cmesh_azure_pipeline')->error('bad response'.$e->getMessage());
             }
 
             $form['refresh_status'] = [
@@ -109,10 +109,10 @@ class ContentPushForm extends ConfigFormBase {
             ];
             $current_user = \Drupal::currentUser();
             $options = [];
-            if ($current_user->hasPermission('consumer_mesh push_content_qa')) {
+            if ($current_user->hasPermission('cmesh_azure_pipeline push_content_qa')) {
                 $options[] = 'QA';
             }
-            if ($current_user->hasPermission('consumer_mesh push_content_prod')) {
+            if ($current_user->hasPermission('cmesh_azure_pipeline push_content_prod')) {
                 $options[] = 'Production';
             }
 
@@ -150,7 +150,7 @@ class ContentPushForm extends ConfigFormBase {
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
         parent::submitForm($form, $form_state);
-        $config = $this->config('consumer_mesh.contentpush');
+        $config = $this->config('cmesh_azure_pipeline.contentpush');
         $config->set('access_token', $form_state->getValue('access_token'))->save();
         $config->set('azure_pipeline_url', $form_state->getValue('azure_pipeline_url'))->save();
 
@@ -188,10 +188,10 @@ class ContentPushForm extends ConfigFormBase {
                                       'http_errors' => false
                                     ]);
             if ($res->getStatusCode() == 200) {
-                \Drupal::logger('consumer_mesh')->info('Push content successful.');
+                \Drupal::logger('cmesh_azure_pipeline')->info('Push content successful.');
             }
             else {
-                \Drupal::logger('consumer_mesh')->error($res->getBody());
+                \Drupal::logger('cmesh_azure_pipeline')->error($res->getBody());
             }
         }
         $config

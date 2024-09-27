@@ -1,6 +1,6 @@
-consumer_mesh.content_push_form:
+cmesh_azure_pipeline.content_push_form:
   title: 'Push Content'
-  route_name: consumer_mesh.content_push_form
+  route_name: cmesh_azure_pipeline.content_push_form
   description: 'Push content to QA/Prod'
   parent: system.admin_config_content
   weight: 99
