@@ -1,4 +1,4 @@
-name: cmesh-azure-pipeline
+name: "Consumer Mesh Azure Pipeline"
 description: Consumer Mesh Azure Push Content
 package: Custom
 type: module
