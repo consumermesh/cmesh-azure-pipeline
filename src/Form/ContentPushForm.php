@@ -29,11 +29,14 @@ class ContentPushForm extends ConfigFormBase {
      * {@inheritdoc}
      */
     public function buildForm(array $form, FormStateInterface $form_state) {
+        $current_user = \Drupal::currentUser();
+        $isAdmin = $current_user->hasRole('administrator');
+
         $config = $this->config('cmesh_azure_pipeline.contentpush');
         // get access token stored in Key module
         $azure_pipeline_url = $config->get('azure_pipeline_url');
         $access_token_id = $config->get('access_token');
-        if ($access_token_id == null || $azure_pipeline_url == null) {
+        if (($access_token_id == null || $azure_pipeline_url == null) && $isAdmin) {
             $form['azure_pipeline_url'] = [
                 '#type' => 'textfield',
                 '#title' => $this->t('Azure Pipeline URL'),
@@ -43,6 +46,10 @@ class ContentPushForm extends ConfigFormBase {
                 '#type' => 'key_select',
                 '#title' => $this->t('Azure DevOps PAT'),
             ];
+        } else if (($access_token_id == null || $azure_pipeline_url == null) && !$isAdmin) {
+            // show warning to contact admin for configuring this module
+            // show warning to contact admin for configuring this module
+            $this->messenger()->addWarning($this->t('Only administrators can configure this module.'));
         }
         else {
             $form['result_table'] = [
@@ -107,7 +114,6 @@ class ContentPushForm extends ConfigFormBase {
                 '#title' => $this->t('Refresh'),
                 '#default_value' => $this->t('Refresh'),
             ];
-            $current_user = \Drupal::currentUser();
             $options = [];
             if ($current_user->hasPermission('cmesh_azure_pipeline push_content_qa')) {
                 $options[] = 'QA';
@@ -123,24 +129,25 @@ class ContentPushForm extends ConfigFormBase {
                 '#options' => $options,
             ];
 
-            // add a collapsible block
-            $form['azure_pipeline'] = [
-                '#type' => 'details',
-                '#open' => FALSE,
-                '#title' => $this->t('Azure DevOps'),
-            ];
-            // add textfield to collapsible block
-            $form['azure_pipeline']['azure_pipeline_url'] = [
-                '#type' => 'textfield',
-                '#title' => $this->t('Azure Pipeline URL'),
-                '#default_value' => $azure_pipeline_url,
-            ];
-            $form['azure_pipeline']['access_token'] = [
-                '#type' => 'key_select',
-                '#title' => $this->t('Azure DevOps PAT'),
-                '#default_value' => $access_token_id,
-            ];
-
+            if (!$isAdmin) {
+                // add a collapsible block
+                $form['azure_pipeline'] = [
+                    '#type' => 'details',
+                    '#open' => FALSE,
+                    '#title' => $this->t('Azure DevOps'),
+                ];
+                // add textfield to collapsible block
+                $form['azure_pipeline']['azure_pipeline_url'] = [
+                    '#type' => 'textfield',
+                    '#title' => $this->t('Azure Pipeline URL'),
+                    '#default_value' => $azure_pipeline_url,
+                ];
+                $form['azure_pipeline']['access_token'] = [
+                    '#type' => 'key_select',
+                    '#title' => $this->t('Azure DevOps PAT'),
+                    '#default_value' => $access_token_id,
+                ];
+            }
         }
         return parent::buildForm($form, $form_state);
     }
