@@ -129,7 +129,7 @@ class ContentPushForm extends ConfigFormBase {
                 '#options' => $options,
             ];
 
-            if (!$isAdmin) {
+            if ($isAdmin) {
                 // add a collapsible block
                 $form['azure_pipeline'] = [
                     '#type' => 'details',
